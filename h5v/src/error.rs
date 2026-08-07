@@ -76,4 +76,3 @@ pub fn log_error(str: impl Display) {
         }
     }
 }
-
