@@ -13,3 +13,9 @@
 *.h5
 *.hdf5
 examples/c/build/
+
+# Un-ignore lib/: the Python fragment of the managed .gitignore ignores it, but
+# this repo keeps C/C++ library sources there. The pre-1.6.0 hand-maintained
+# .gitignore carried the same exemption as a comment; it lives here now so it
+# survives regeneration.
+!lib/

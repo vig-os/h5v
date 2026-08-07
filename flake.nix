@@ -47,7 +47,30 @@
         #   ];
         # ────────────────────────────────────────────────────────────────────
         extraPackages = pkgs: [
-          # add project tools here
+          # Rust toolchain for the h5v TUI binary and the fd5 crate. Replaces
+          # the rustup install in the pruned .devcontainer/Containerfile.h5v
+          # (direnv migration, vig-os/h5v#1).
+          pkgs.rustc
+          pkgs.cargo
+          pkgs.clippy
+          pkgs.rustfmt
+
+          # Native build deps: hdf5-metno's `static` feature builds the HDF5 C
+          # library from source, which needs cmake + a C toolchain; pkg-config
+          # is used by the *-sys crates. Replaces the Containerfile's
+          # build-essential / cmake / pkg-config apt layer.
+          pkgs.cmake
+          pkgs.pkg-config
+
+          # System libraries the plotters font stack links against, via
+          # yeslogic-fontconfig-sys and freetype-sys (chart previews).
+          pkgs.fontconfig
+          pkgs.freetype
+
+          # ratatui-image links libchafa for its terminal-graphics backend
+          # (image previews); chafa.pc in turn requires glib-2.0.
+          pkgs.chafa
+          pkgs.glib
         ];
 
         # Workflow model (#1224): read DEVKIT_WORKFLOW from .vig-os and forward
