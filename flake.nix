@@ -100,6 +100,20 @@
             inherit pkgs;
             extraPackages = extraPackages pkgs;
 
+            # Pin the WRAPPED C toolchain by absolute path. stdenv leaves
+            # CC=gcc/CXX=g++ as bare PATH-resolved names, and CI's
+            # setup-devkit-toolchain re-exports the dev-shell PATH via
+            # GITHUB_PATH, whose per-line prepend REVERSES the order — the raw
+            # (unwrapped) gcc then shadows the cc-wrapper and the vendored HDF5
+            # cmake build cannot find libc (Scrt1.o / crti.o, vig-os/h5v#2).
+            # Absolute paths are PATH-order-proof; the action forwards shellHook
+            # env to CI (#1180).
+            shellHook = ''
+              echo "devcontainer dev environment loaded (nix)"
+              export CC=${pkgs.stdenv.cc}/bin/cc
+              export CXX=${pkgs.stdenv.cc}/bin/c++
+            '';
+
             # Opt-in: let the flake GENERATE .pre-commit-config.yaml from the
             # shared base hook set instead of hand-managing the scaffolded
             # YAML — toggle base hooks, add per-hook/global excludes, or add
