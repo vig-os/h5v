@@ -11,6 +11,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Sync issues and PRs to the `sync/issue-mirror` branch instead of `main`** ([#9](https://github.com/vig-os/h5v/issues/9))
+  - `DEVKIT_SYNC_TARGET=sync/issue-mirror` in `.vig-os`, so the nightly
+    `sync-issues.yml` push no longer depends on `main` accepting a direct push
+    from the Commit App, which a require-PR ruleset on `main` refuses. The job
+    creates the mirror from `main` on its first run.
+  - The release train folds the mirror's `docs/issues` and `docs/pull-requests`
+    archive into each final release, and resets the mirror onto `main` after
+    promotion so it does not drift without bound.
+
 - **Upgrade the vigOS devkit scaffold from 0.3.1 to 1.17.0** ([#1](https://github.com/vig-os/h5v/issues/1))
   - Delivery mode switched from `devcontainer` to `direnv`: the dev environment
     now comes from `flake.nix` + `.envrc` (`direnv allow`, or `nix develop`),
