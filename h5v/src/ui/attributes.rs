@@ -16,7 +16,7 @@ use crate::{
 use super::state::{AppState, AttributeViewSelection, Focus, Mode};
 
 fn make_panels_rect(area: Rect, min_first_panel: u16) -> Rc<[Rect]> {
-    
+
     Layout::default()
         .direction(ratatui::layout::Direction::Horizontal)
         .constraints([
@@ -27,7 +27,7 @@ fn make_panels_rect(area: Rect, min_first_panel: u16) -> Rc<[Rect]> {
 }
 
 fn make_panels_scroll(area: Rect, scroll_size: u16) -> Rc<[Rect]> {
-    
+
     Layout::default()
         .direction(ratatui::layout::Direction::Horizontal)
         .constraints([Constraint::Max(u16::MAX), Constraint::Length(scroll_size)])

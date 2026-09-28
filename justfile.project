@@ -21,48 +21,69 @@ info:
 # CODE QUALITY
 # -------------------------------------------------------------------------------
 
-# Run all linters
+# Run all linters (Python + Rust)
 [group('quality')]
 lint:
-    uv run ruff check .
+    @if [ -f pyproject.toml ]; then uv run ruff check .; fi
+    @if [ -f Cargo.toml ]; then cargo clippy --workspace --all-targets; fi
 
-# Format code
+# Format code (Python + Rust)
 [group('quality')]
 format:
-    uv run ruff format .
+    @if [ -f pyproject.toml ]; then uv run ruff format .; fi
+    @if [ -f Cargo.toml ]; then cargo fmt --all; fi
 
 # Run pre-commit hooks on all files
 [group('quality')]
 precommit:
-    uv run pre-commit run --all-files
+    prek run --all-files
 
 # -------------------------------------------------------------------------------
 # TESTING
 # -------------------------------------------------------------------------------
 
-# Run tests with pytest
+# Run the full test suite (Python + Rust)
 [group('test')]
 test *args:
-    uv run pytest {{ args }}
+    @just test-py {{ args }}
+    @just test-rs
 
-# Run tests with coverage
+# Run Python tests (exit 5 = "no tests collected" is a no-op, not a failure)
+[group('test')]
+test-py *args:
+    @if [ -f pyproject.toml ]; then uv run pytest {{ args }} || { rc=$?; [ "$rc" -eq 5 ] || exit "$rc"; }; fi
+
+# Single-threaded because the HDF5 C library this links is not built
+# thread-safe: parallel test threads race on the file lock (see the note at the
+# top of crates/fd5/tests/conformance.rs). The default scope skips integration
+# test targets, so the fd5 conformance suite is NOT run — it needs fixtures from
+# tests/conformance/generate_fixtures.py, which this workspace does not carry
+# yet. Once those land, drop `--lib --bins` (or run `just test-rs --workspace`).
+# Run Rust tests
+[group('test')]
+test-rs *args="--workspace --lib --bins":
+    @if [ -f Cargo.toml ]; then cargo test {{ args }} -- --test-threads=1; fi
+
+# Run tests with coverage (exit 5 = "no tests collected" is a no-op, not a failure)
 [group('test')]
 test-cov *args:
-    uv run pytest --cov --cov-report=term-missing {{ args }}
+    @if [ -f pyproject.toml ]; then uv run pytest --cov --cov-report=term-missing {{ args }} || { rc=$?; [ "$rc" -eq 5 ] || exit "$rc"; }; fi
 
 # -------------------------------------------------------------------------------
 # DEPENDENCIES
 # -------------------------------------------------------------------------------
 
-# Sync all dependencies (idempotent, fast if nothing changed)
+# Sync dependencies (all groups; extras are opt-in, e.g. `just sync --all-extras`)
 [group('deps')]
-sync:
-    @if [ -f pyproject.toml ]; then uv sync --all-extras --all-groups; fi
+sync *args="--all-groups":
+    @if [ -f pyproject.toml ]; then uv sync {{ args }}; fi
+    @if [ -f Cargo.toml ]; then cargo fetch --locked; fi
 
 # Update all dependencies
 [group('deps')]
 update:
-    uv lock --upgrade
+    @if [ -f pyproject.toml ]; then uv lock --upgrade; fi
+    @if [ -f Cargo.toml ]; then cargo update; fi
     @just sync
 
 # -------------------------------------------------------------------------------
@@ -109,7 +130,7 @@ branch:
 # # Prepare release branch (manual workflow dispatch helper)
 # [group('release')]
 # prepare-release version:
-#     gh workflow run prepare-release.yml --ref dev -f "version={{ version }}"
+#     gh workflow run prepare-release.yml --ref main -f "version={{ version }}"
 #
 # # Finalize and publish release (manual workflow dispatch helper)
 # [group('release')]

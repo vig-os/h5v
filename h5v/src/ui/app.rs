@@ -478,4 +478,3 @@ fn render_info(frame: &mut Frame<'_>, msg: &str) {
         .wrap(Wrap { trim: true });
     frame.render_widget(info_paragraph, frame.area());
 }
-

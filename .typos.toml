@@ -1,0 +1,37 @@
+# Seeded by vigOS devkit — yours to edit; upgrades never overwrite this file.
+# Bugs / missing tools: https://github.com/vig-os/devkit/issues
+
+# Typos configuration
+# https://github.com/crate-ci/typos
+
+[default.extend-words]
+# Shell scripting: sed label syntax uses 'ba' (branch to label 'a')
+ba = "ba"
+# CVE policy term (#637): a finding "unexcepted" = not in the exception register
+unexcepted = "unexcepted"
+# version-check.sh duration placeholder (#759): 'Nd' = N days (cf. Nw/Nh/Nm)
+Nd = "Nd"
+# podman rootless-networking helper package name (#1106), not a misspelling
+passt = "passt"
+
+# ── h5v ──────────────────────────────────────────────────────────────────────
+# Crate name, not a misspelling of "ratatouille": the TUI is built on `ratatui`
+# and `ratatui_image`.
+ratatui = "ratatui"
+
+# Pre-existing misspellings baked into h5v identifiers and one UI string. They
+# predate the devkit 1.6.0 upgrade (#1), which is the first run of the typos
+# hook over the Rust sources; renaming them is a source change and is tracked
+# separately. Delete each entry as its identifier is fixed.
+#   DatasetPlotingData          -> DatasetPlottingData
+#   LineSerie / line_serie      -> LineSeries / line_series
+#   GIR_VERSION                 -> GIT_VERSION
+#   heigh, value_scrol_areas    -> height, value_scroll_areas
+#   "Ivalid Attribute"          -> "Invalid Attribute"
+Ploting = "Ploting"
+Serie = "Serie"
+serie = "serie"
+GIR = "GIR"
+heigh = "heigh"
+scrol = "scrol"
+Ivalid = "Ivalid"
