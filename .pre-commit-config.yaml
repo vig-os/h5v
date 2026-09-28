@@ -17,6 +17,7 @@ repos:
       # - chore/<short_summary> (no issue required)
       # - <type>/<issue_number>-<short_summary> (for feature, bugfix, etc.)
       # - worktree/<issue_number> (autonomous worktree branches)
+      # - renovate/* (Renovate's branch namespace; maintainer fix-up commits)
       # Allows main and branches matching the convention.
       - id: no-commit-to-branch
         name: branch-name (enforce <type>/<issue>-<summary>)
@@ -24,7 +25,7 @@ repos:
           - --branch
           - __none__  # override default so main is not protected
           - --pattern
-          - "^(?!main$)(?!^(chore)/[a-z0-9]+(-[a-z0-9]+)*$)(?!^(feature|bugfix|hotfix|release|docs|test|refactor)/[0-9]+-[a-z0-9]+(-[a-z0-9]+)*$)(?!^worktree/[0-9]+$).+$"
+          - "^(?!main$)(?!^(chore)/[a-z0-9]+(-[a-z0-9]+)*$)(?!^(feature|bugfix|hotfix|release|docs|test|refactor)/[0-9]+-[a-z0-9]+(-[a-z0-9]+)*$)(?!^renovate/.+$)(?!^worktree/[0-9]+$).+$"
       - id: check-added-large-files
       - id: check-case-conflict
       - id: check-json
@@ -134,7 +135,7 @@ repos:
         language: system
         types: [markdown]
         args: ["-c", ".pymarkdown", "fix"]
-        exclude: ^(README\.md|CONTRIBUTE\.md|TESTING\.md)
+        exclude: ^(README\.md|CONTRIBUTING\.md|TESTING\.md)
 
   # Justfile formatting
   - repo: local
@@ -163,6 +164,7 @@ repos:
         name: typos (source typo checker)
         entry: typos --force-exclude
         language: system
+        stages: [pre-commit]
 
   # Security exception expiry enforcement (Refs: #566)
   - repo: local
@@ -192,6 +194,7 @@ repos:
         entry: uv run check-agent-identity
         language: system
         pass_filenames: false
+        stages: [pre-commit]
 
   # Commit message validation (commit-msg stage). Scope is free-form
   # ("alphanumeric and hyphens only" per docs/COMMIT_MESSAGE_STANDARD.md);
