@@ -6,14 +6,17 @@
   # files. To update: `nix flake update vigos`.
   inputs = {
     # The shared vigOS toolchain (single source of truth).
-    # This scaffold deliberately FLOATS on the default branch so a fresh
-    # project works before its first pin. Once you depend on stability
-    # (especially the vigos.* home-manager module options), pin a release
-    # tag instead and bump deliberately:
-    #   vigos.url = "github:vig-os/devkit?ref=<tag>";
+    # PINNED to a release tag, which must stay on the same version as
+    # DEVKIT_VERSION in .vig-os: the scaffold and this input deliver coupled
+    # halves of the same change (scaffold writes files, the input delivers the
+    # matching hook behavior), and advancing one alone breaks commits —
+    # devkit#1093. Bump both together, then `nix flake update vigos`.
+    # Not floating on the default branch: since devkit#1676's release-neutral
+    # lane, `main` routinely carries landed-but-unshipped changes, so a float
+    # would track hook behavior no release has published.
     # Policy: https://github.com/vig-os/devkit/blob/main/docs/NIX.md
     # "Home-manager modules - versioning & release policy".
-    vigos.url = "github:vig-os/devkit";
+    vigos.url = "github:vig-os/devkit?ref=1.17.0";
     # Follow vigos's pinned nixpkgs + flake-utils so your tools match the
     # toolchain exactly (one resolved nixpkgs, no drift).
     nixpkgs.follows = "vigos/nixpkgs";
@@ -73,24 +76,67 @@
           pkgs.glib
         ];
 
-        # Workflow model (#1224): read DEVKIT_WORKFLOW from .vig-os and forward
-        # it to mkProjectShell so the flake-generated pre-commit branch guard
-        # follows the model — a `trunk` workspace drops the dev-branch clause,
-        # mirroring the scaffolded .pre-commit-config.yaml. `gitflow` (the
-        # default) and an absent/blank value are inert. Managed line; leave it.
-        workflow =
+        # Devkit knobs read from .vig-os (#1224, #1432, #1431, #1282, #1633): the
+        # flake-generated pre-commit hooks — the branch guard and the
+        # commit-message validator — follow the workspace manifest, mirroring
+        # the scaffolded .pre-commit-config.yaml renders (#1434). Managed
+        # block; leave it.
+        vigOsValue =
+          key:
           let
             vigOsPath = self + "/.vig-os";
-            declared = builtins.filter (l: nixpkgs.lib.hasPrefix "DEVKIT_WORKFLOW=" l) (
+            declared = builtins.filter (l: nixpkgs.lib.hasPrefix "${key}=" l) (
               nixpkgs.lib.splitString "\n" (builtins.readFile vigOsPath)
             );
-            value =
-              if declared == [ ] then
-                ""
-              else
-                nixpkgs.lib.removePrefix "DEVKIT_WORKFLOW=" (builtins.head declared);
           in
-          if builtins.pathExists vigOsPath && value == "trunk" then "trunk" else "gitflow";
+          if !builtins.pathExists vigOsPath || declared == [ ] then
+            ""
+          else
+            nixpkgs.lib.removePrefix "${key}=" (builtins.head declared);
+
+        # A comma-separated manifest list -> a Nix list, or null when the key
+        # is absent/blank (= "keep the devkit default"). Whitespace around
+        # entries is trimmed and empty entries dropped, matching how
+        # init-workspace.sh resolves the same keys; validation (charset,
+        # non-empty) lives in mkProjectShell, which fails eval loudly on a bad
+        # value.
+        vigOsList =
+          key:
+          let
+            entries = builtins.filter (t: t != "") (
+              map (t: nixpkgs.lib.trim t) (nixpkgs.lib.splitString "," (vigOsValue key))
+            );
+          in
+          if entries == [ ] then null else entries;
+
+        # Workflow model (#1224): a `trunk` workspace drops the dev-branch
+        # clause. `gitflow` (the default) and an absent/blank value are inert.
+        workflow = if vigOsValue "DEVKIT_WORKFLOW" == "trunk" then "trunk" else "gitflow";
+
+        # Branch-type set (#1432): DEVKIT_BRANCH_TYPES replaces the
+        # issue-numbered alternation of the branch guard.
+        branchTypes = vigOsList "DEVKIT_BRANCH_TYPES";
+
+        # Approved commit types (#1431): DEVKIT_COMMIT_TYPES replaces the
+        # validate-commit-msg `--types` list, so the local hook agrees with
+        # CI's validate-commit-range (#1434).
+        commitTypes = vigOsList "DEVKIT_COMMIT_TYPES";
+
+        # Refs policy (#1282): DEVKIT_REFS_POLICY steers whether a commit needs
+        # a `Refs: #N` line — chore-optional (default) | optional | required.
+        # Absent/blank forwards null (= the default); an unknown literal fails
+        # eval loudly in mkProjectShell (#1434).
+        refsPolicy =
+          let
+            raw = nixpkgs.lib.trim (vigOsValue "DEVKIT_REFS_POLICY");
+          in
+          if raw == "" then null else raw;
+
+        # Refs-optional types (#1633): DEVKIT_REFS_OPTIONAL_TYPES names the
+        # commit types that may omit `Refs:` and WINS over DEVKIT_REFS_POLICY.
+        # Absent/blank forwards null (= the policy decides); a value outside
+        # the approved types fails eval loudly in mkProjectShell.
+        refsOptionalTypes = vigOsList "DEVKIT_REFS_OPTIONAL_TYPES";
       in
       {
         # The dev shell = the shared vigOS toolchain + your extras.
@@ -99,20 +145,6 @@
           {
             inherit pkgs;
             extraPackages = extraPackages pkgs;
-
-            # Pin the WRAPPED C toolchain by absolute path. stdenv leaves
-            # CC=gcc/CXX=g++ as bare PATH-resolved names, and CI's
-            # setup-devkit-toolchain re-exports the dev-shell PATH via
-            # GITHUB_PATH, whose per-line prepend REVERSES the order — the raw
-            # (unwrapped) gcc then shadows the cc-wrapper and the vendored HDF5
-            # cmake build cannot find libc (Scrt1.o / crti.o, vig-os/h5v#2).
-            # Absolute paths are PATH-order-proof; the action forwards shellHook
-            # env to CI (#1180).
-            shellHook = ''
-              echo "devcontainer dev environment loaded (nix)"
-              export CC=${pkgs.stdenv.cc}/bin/cc
-              export CXX=${pkgs.stdenv.cc}/bin/c++
-            '';
 
             # Opt-in: let the flake GENERATE .pre-commit-config.yaml from the
             # shared base hook set instead of hand-managing the scaffolded
@@ -145,6 +177,22 @@
           // nixpkgs.lib.optionalAttrs (builtins.functionArgs vigos.lib.mkProjectShell ? workflow) {
             # Branch guard follows the workspace workflow model (#1224).
             inherit workflow;
+          }
+          // nixpkgs.lib.optionalAttrs (builtins.functionArgs vigos.lib.mkProjectShell ? branchTypes) {
+            # Branch guard follows the workspace branch-type set (#1432).
+            inherit branchTypes;
+          }
+          // nixpkgs.lib.optionalAttrs (builtins.functionArgs vigos.lib.mkProjectShell ? commitTypes) {
+            # validate-commit-msg follows the workspace commit-type set (#1431).
+            inherit commitTypes;
+          }
+          // nixpkgs.lib.optionalAttrs (builtins.functionArgs vigos.lib.mkProjectShell ? refsPolicy) {
+            # validate-commit-msg follows the workspace Refs policy (#1282).
+            inherit refsPolicy;
+          }
+          // nixpkgs.lib.optionalAttrs (builtins.functionArgs vigos.lib.mkProjectShell ? refsOptionalTypes) {
+            # validate-commit-msg follows the workspace exempt set (#1633).
+            inherit refsOptionalTypes;
           }
         );
 
