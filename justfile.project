@@ -73,11 +73,9 @@ test-cov *args:
 # DEPENDENCIES
 # -------------------------------------------------------------------------------
 
-# NOTE: extras are NOT opt-in here (unlike the devkit template): pytest lives
-# in the `dev` extra, so `just test` needs --all-extras.
-# Sync all dependencies (idempotent, fast if nothing changed)
+# Sync dependencies (all groups; extras are opt-in, e.g. `just sync --all-extras`)
 [group('deps')]
-sync *args="--all-extras --all-groups":
+sync *args="--all-groups":
     @if [ -f pyproject.toml ]; then uv sync {{ args }}; fi
     @if [ -f Cargo.toml ]; then cargo fetch --locked; fi
 
