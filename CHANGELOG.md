@@ -11,6 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Renovate manages the Rust dependencies** ([#12](https://github.com/vig-os/h5v/issues/12))
+  - `renovate.json` enables the `cargo` manager, so Renovate opens update and
+    vulnerability PRs for `Cargo.toml`, and its weekly lock file maintenance
+    regenerates `Cargo.lock`.
+  - Drops the `pep621` and `npm` managers: the repo has no `pyproject.toml` or
+    `package.json` for them to read.
+
 - **Sync issues and PRs to the `sync/issue-mirror` branch instead of `main`** ([#9](https://github.com/vig-os/h5v/issues/9))
   - `DEVKIT_SYNC_TARGET=sync/issue-mirror` in `.vig-os`, so the nightly
     `sync-issues.yml` push no longer depends on `main` accepting a direct push
