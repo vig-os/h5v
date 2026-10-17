@@ -2,7 +2,7 @@
 type: issue
 state: open
 created: 2026-09-29T11:58:49Z
-updated: 2026-10-12T19:08:05Z
+updated: 2026-10-16T20:41:51Z
 author: renovate[bot]
 author_url: https://github.com/renovate[bot]
 url: https://github.com/vig-os/h5v/issues/14
@@ -13,7 +13,7 @@ milestone: none
 projects: none
 parent: none
 children: none
-synced: 2026-10-13T09:11:02.407Z
+synced: 2026-10-17T06:47:30.272Z
 ---
 
 # [Issue 14]: [Dependency Dashboard](https://github.com/vig-os/h5v/issues/14)
@@ -30,6 +30,7 @@ The following updates are awaiting their schedule. To get an update now, click o
  - [ ] <!-- unschedule-branch=renovate/serde-monorepo -->chore(deps): update rust crate serde to v1.0.229
  - [ ] <!-- unschedule-branch=renovate/serde_json-1.x-lockfile -->chore(deps): update rust crate serde_json to v1.0.154
  - [ ] <!-- unschedule-branch=renovate/thiserror-2.x-lockfile -->chore(deps): update rust crate thiserror to v2.0.21
+ - [ ] <!-- unschedule-branch=renovate/arboard-3.x-lockfile -->chore(deps): update rust crate arboard to v3.7.0
  - [ ] <!-- unschedule-branch=renovate/hdf5-metno-0.x -->chore(deps): update rust crate hdf5-metno to 0.15.0
  - [ ] <!-- unschedule-branch=renovate/sha2-0.x -->chore(deps): update rust crate sha2 to 0.11
  - [ ] <!-- unschedule-branch=renovate/hdf5-metno-sys-0.x -->fix(deps): update rust crate hdf5-metno-sys to 0.12.0
@@ -64,7 +65,7 @@ The following updates are awaiting their schedule. To get an update now, click o
 
 <details><summary>h5v/Cargo.toml (13)</summary>
 
- - `arboard 3.6.1`
+ - `arboard 3.6.1` → [Updates: `3.6.1`]
  - `bktree 1.0.1`
  - `clap 4.5.51` → [Updates: `4.5.51`]
  - `fuzzy-matcher 0.3.7`
