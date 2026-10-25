@@ -2,7 +2,7 @@
 type: issue
 state: open
 created: 2026-09-29T11:58:49Z
-updated: 2026-10-19T07:36:10Z
+updated: 2026-10-24T11:46:45Z
 author: renovate[bot]
 author_url: https://github.com/renovate[bot]
 url: https://github.com/vig-os/h5v/issues/14
@@ -13,31 +13,31 @@ milestone: none
 projects: none
 parent: none
 children: none
-synced: 2026-10-20T07:22:15.872Z
+synced: 2026-10-25T07:28:57.687Z
 ---
 
 # [Issue 14]: [Dependency Dashboard](https://github.com/vig-os/h5v/issues/14)
 
 This issue lists Renovate updates and detected dependencies. Read the [Dependency Dashboard](https://docs.renovatebot.com/key-concepts/dashboard/) docs to learn more.<br>[View this repository on the Mend.io Web Portal](https://developer.mend.io/github/vig-os/h5v).
 
-## Rate-Limited
+## Awaiting Schedule
 
-The following updates are currently rate-limited. To force their creation now, click on a checkbox below.
+The following updates are awaiting their schedule. To get an update now, click on a checkbox below.
 
- - [ ] <!-- unlimit-branch=renovate/ratatui-image-10.x-lockfile -->chore(deps): update rust crate ratatui-image to v10.0.8
- - [ ] <!-- unlimit-branch=renovate/serde-monorepo -->chore(deps): update rust crate serde to v1.0.229
- - [ ] <!-- unlimit-branch=renovate/serde_json-1.x-lockfile -->chore(deps): update rust crate serde_json to v1.0.154
- - [ ] <!-- unlimit-branch=renovate/thiserror-2.x-lockfile -->chore(deps): update rust crate thiserror to v2.0.21
- - [ ] <!-- unlimit-branch=renovate/arboard-3.x-lockfile -->chore(deps): update rust crate arboard to v3.7.0
- - [ ] <!-- unlimit-branch=renovate/hdf5-metno-0.x -->chore(deps): update rust crate hdf5-metno to 0.15.0
- - [ ] <!-- unlimit-branch=renovate/sha2-0.x -->chore(deps): update rust crate sha2 to 0.11
- - [ ] <!-- unlimit-branch=renovate/hdf5-metno-sys-0.x -->fix(deps): update rust crate hdf5-metno-sys to 0.12.0
- - [ ] <!-- unlimit-branch=renovate/itertools-0.x -->fix(deps): update rust crate itertools to 0.15.0
- - [ ] <!-- unlimit-branch=renovate/toml-0.x -->fix(deps): update rust crate toml to 0.9
- - [ ] <!-- unlimit-branch=renovate/ratatui-image-11.x -->fix(deps): update rust crate ratatui-image to v11
- - [ ] <!-- unlimit-branch=renovate/toml-1.x -->fix(deps): update rust crate toml to v1
- - [ ] <!-- unlimit-branch=renovate/lock-file-maintenance -->chore(deps): lock file maintenance
- - [ ] <!-- create-all-rate-limited-prs -->🔐 **Create all rate-limited PRs at once** 🔐
+ - [ ] <!-- unschedule-branch=renovate/ratatui-image-10.x-lockfile -->chore(deps): update rust crate ratatui-image to v10.0.8
+ - [ ] <!-- unschedule-branch=renovate/serde-monorepo -->chore(deps): update rust crate serde to v1.0.229
+ - [ ] <!-- unschedule-branch=renovate/serde_json-1.x-lockfile -->chore(deps): update rust crate serde_json to v1.0.154
+ - [ ] <!-- unschedule-branch=renovate/thiserror-2.x-lockfile -->chore(deps): update rust crate thiserror to v2.0.21
+ - [ ] <!-- unschedule-branch=renovate/arboard-3.x-lockfile -->chore(deps): update rust crate arboard to v3.7.0
+ - [ ] <!-- unschedule-branch=renovate/hdf5-metno-0.x -->chore(deps): update rust crate hdf5-metno to 0.15.0
+ - [ ] <!-- unschedule-branch=renovate/sha2-0.x -->chore(deps): update rust crate sha2 to 0.11
+ - [ ] <!-- unschedule-branch=renovate/hdf5-metno-sys-0.x -->fix(deps): update rust crate hdf5-metno-sys to 0.12.0
+ - [ ] <!-- unschedule-branch=renovate/itertools-0.x -->fix(deps): update rust crate itertools to 0.15.0
+ - [ ] <!-- unschedule-branch=renovate/toml-0.x -->fix(deps): update rust crate toml to 0.9
+ - [ ] <!-- unschedule-branch=renovate/ratatui-image-11.x -->fix(deps): update rust crate ratatui-image to v11
+ - [ ] <!-- unschedule-branch=renovate/toml-1.x -->fix(deps): update rust crate toml to v1
+ - [ ] <!-- unschedule-branch=renovate/lock-file-maintenance -->chore(deps): lock file maintenance
+ - [ ] <!-- create-all-awaiting-schedule-prs -->🔐 **Create all awaiting schedule PRs at once** 🔐
 
 ## Open
 
