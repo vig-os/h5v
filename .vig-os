@@ -240,3 +240,8 @@ DEVKIT_DRIFT_CHECK=
 # `nix` is declared but never gated (no single marker file). Written back only
 # for a non-empty value (#1478).
 DEVKIT_LANGUAGES=rust
+
+# Advance the pinned devkit flake input together with DEVKIT_VERSION on
+# upgrade (devkit#1856): the scaffold and the flake input are coupled halves
+# of each release, and CI rejects a pin that differs from DEVKIT_VERSION.
+DEVKIT_FLAKE_PIN_ADVANCE=true
