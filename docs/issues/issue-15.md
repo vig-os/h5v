@@ -1,19 +1,19 @@
 ---
 type: issue
-state: open
+state: closed
 created: 2026-10-05T13:52:17Z
-updated: 2026-11-02T14:58:22Z
+updated: 2026-11-09T15:28:07Z
 author: vigos-devkit-upgrade[bot]
 author_url: https://github.com/vigos-devkit-upgrade[bot]
 url: https://github.com/vig-os/h5v/issues/15
-comments: 4
+comments: 5
 labels: none
 assignees: none
 milestone: none
 projects: none
 parent: none
 children: none
-synced: 2026-11-04T08:51:44.182Z
+synced: 2026-11-10T09:31:30.383Z
 ---
 
 # [Issue 15]: [chore(devkit): automated devkit upgrade is failing](https://github.com/vig-os/h5v/issues/15)
@@ -78,4 +78,12 @@ The devkit upgrade failed again.
 - Failing step: Commit the upgrade in the project shell
 - Pinned devkit version: 1.17.0
 - Target devkit version: 1.18.0
+
+---
+
+# [Comment #5]() by [vigos-devkit-upgrade[bot]]()
+
+_Posted on November 9, 2026 at 03:28 PM_
+
+The devkit upgrade ran green again: https://github.com/vig-os/h5v/actions/runs/42644680491
 
