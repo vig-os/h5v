@@ -16,7 +16,7 @@
     # would track hook behavior no release has published.
     # Policy: https://github.com/vig-os/devkit/blob/main/docs/NIX.md
     # "Home-manager modules - versioning & release policy".
-    vigos.url = "github:vig-os/devkit?ref=1.17.0";
+    vigos.url = "github:vig-os/devkit?ref=1.19.0";
     # Follow vigos's pinned nixpkgs + flake-utils so your tools match the
     # toolchain exactly (one resolved nixpkgs, no drift).
     nixpkgs.follows = "vigos/nixpkgs";
