@@ -2,7 +2,7 @@
 type: issue
 state: closed
 created: 2026-08-07T13:05:25Z
-updated: 2026-09-28T12:28:15Z
+updated: 2026-11-19T19:08:00Z
 author: c-vigo
 author_url: https://github.com/c-vigo
 url: https://github.com/vig-os/h5v/issues/6
@@ -13,7 +13,7 @@ milestone: none
 projects: none
 parent: none
 children: none
-synced: 2026-09-28T20:28:46.985Z
+synced: 2026-11-20T09:52:41.660Z
 ---
 
 # [Issue 6]: [chore(ci): bump devkit to 1.6.0 (retires numeric App-ID scaffolds)](https://github.com/vig-os/h5v/issues/6)
@@ -86,7 +86,7 @@ That is fine and expected — it does not block this work.
 **This blocks retirement of the `RELEASE_APP_ID` and `COMMIT_APP_ID` org secrets
 in `vig-os`.** Migration principle, no exceptions: *no numeric `*_APP_ID` secret
 is deleted while any pinned workflow still references it.* Cautionary precedent
-— `exo-pet/playground-carlos`'s sync-issues job broke **silently for a week**
+— `[private-repo]`'s sync-issues job broke **silently for a week**
 when `COMMIT_APP_ID` was unavailable: the job kept reporting success while
 syncing nothing. Deleting `RELEASE_APP_ID` while this repo is on the old
 scaffold would break its release train the same way.
@@ -102,7 +102,7 @@ _Posted on August 7, 2026 at 01:08 PM_
 
 Cross-reference correction: the sibling old-scaffold issue is **vig-os/scitadel#209** (the body above says #208, which was a placeholder written before the issue was filed). The scitadel devkit bump itself is vig-os/scitadel#207.
 
-Full sibling set for this migration: vig-os/sync-issues-action#168, vig-os/devkit#1365, vig-os/scitadel#209, vig-os/tessera#364, exo-pet/org-config#20.
+Full sibling set for this migration: vig-os/sync-issues-action#168, vig-os/devkit#1365, vig-os/scitadel#209, vig-os/tessera#364, [private-repo]#20.
 
 ---
 
