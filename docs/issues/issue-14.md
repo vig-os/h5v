@@ -2,7 +2,7 @@
 type: issue
 state: open
 created: 2026-09-29T11:58:49Z
-updated: 2026-11-21T16:13:15Z
+updated: 2026-11-26T22:40:22Z
 author: renovate[bot]
 author_url: https://github.com/renovate[bot]
 url: https://github.com/vig-os/h5v/issues/14
@@ -13,7 +13,7 @@ milestone: none
 projects: none
 parent: none
 children: none
-synced: 2026-11-22T09:34:21.608Z
+synced: 2026-11-27T10:42:42.905Z
 ---
 
 # [Issue 14]: [Dependency Dashboard](https://github.com/vig-os/h5v/issues/14)
@@ -41,7 +41,7 @@ The following updates are awaiting their schedule. To get an update now, click o
 
 The following updates have all been created. To force a retry/rebase of any, click on a checkbox below.
 
- - [ ] <!-- rebase-branch=renovate/clap-4.x-lockfile -->[chore(deps): update rust crate clap to v4.6.9](../pull/16)
+ - [ ] <!-- rebase-branch=renovate/clap-4.x-lockfile -->[chore(deps): update rust crate clap to v4.6.10](../pull/16)
  - [ ] <!-- rebase-branch=renovate/ratatui-0.x-lockfile -->[chore(deps): update rust crate ratatui to v0.30.2](../pull/17)
  - [ ] <!-- rebase-branch=renovate/ratatui-image-10.x-lockfile -->[chore(deps): update rust crate ratatui-image to v10.0.8](../pull/18)
  - [ ] <!-- rebase-branch=renovate/serde-monorepo -->[chore(deps): update rust crate serde to v1.0.229](../pull/19)
@@ -73,7 +73,7 @@ The following updates have all been created. To force a retry/rebase of any, cli
 
  - `arboard 3.6.1` → [Updates: `lock file @ 3.7.0`]
  - `bktree 1.0.1`
- - `clap 4.5.51` → [Updates: `lock file @ 4.6.9`]
+ - `clap 4.5.51` → [Updates: `lock file @ 4.6.10`]
  - `fuzzy-matcher 0.3.7`
  - `git-version 0.3.9`
  - `image 0.25.9`
